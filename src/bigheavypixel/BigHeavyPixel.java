@@ -44,7 +44,18 @@ public class BigHeavyPixel extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		human.render();
+		Input input = container.getInput();
+		updateHumanMovement(input, delta);
 		
+	}
+
+	void updateHumanMovement(Input input, int delta) {
+		if (input.isKeyDown(Input.KEY_LEFT)) { 
+	    	human.moveLeft();
+	    }
+	    if (input.isKeyDown(Input.KEY_RIGHT)) {
+	    	human.moveRight();
+	    }
+	    human.CheckBorder();
 	}
 }

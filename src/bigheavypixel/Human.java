@@ -8,6 +8,7 @@ public class Human {
 	private Image image;
 	private float x;
 	private float y;
+	public static final float vX = 20;
 	public static final float HumanYposition = (75*BigHeavyPixel.GAME_HEIGHT)/100;
 	
 	public Human(float x) throws SlickException{
@@ -20,11 +21,21 @@ public class Human {
 		image.draw(x,y);
 	}
 	public void moveLeft (){
-		  x -= 5;
-		  image.setRotation(270);
+		  x -= vX;
+		  //image.setRotation(270);
 	}
 	public void moveRight (){
-		  x += 5;
-		  image.setRotation(90); 
+		  x += vX;
+		  //image.setRotation(90); 
+	}
+
+	public void CheckBorder() {
+		if (x > BigHeavyPixel.GAME_WIDTH){
+			x =0;
+		}
+		if (x < 0){
+			x =BigHeavyPixel.GAME_WIDTH;
+		}
+		
 	}
 } 
