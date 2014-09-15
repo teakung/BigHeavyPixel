@@ -4,15 +4,20 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class BigHeavyPixel extends BasicGame{
 	
+	private Human human;
+	public static final int GAME_WIDTH = 1280;
+	public static final int GAME_HEIGHT = 720;
+	
 	 public static void main(String[] args) {
 		    try {
-		      BigHeavyPixel game = new BigHeavyPixel("Super Ship Game");
+		      BigHeavyPixel game = new BigHeavyPixel("BigHeavy Pixel");
 		      AppGameContainer appgc = new AppGameContainer(game);
-		      appgc.setDisplayMode(640, 480, false);
+		      appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
 		      appgc.start();
 		    } catch (SlickException e) {
 		      e.printStackTrace();
@@ -25,20 +30,21 @@ public class BigHeavyPixel extends BasicGame{
 	
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		
+		human.render();
 		
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		
+		container.setVSync(true);
+	    container.setTargetFrameRate(60);
+	    human = new Human(100);
 		
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		
+		human.render();
 		
 	}
-
 }
