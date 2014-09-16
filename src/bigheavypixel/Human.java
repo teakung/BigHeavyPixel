@@ -8,7 +8,7 @@ public class Human {
 	private Image image;
 	private float x;
 	private float y;
-	public static final float vX = 20;
+	public static final float vX = 15;
 	public static final float HumanYposition = (75*BigHeavyPixel.GAME_HEIGHT)/100;
 	
 	public Human(float x) throws SlickException{

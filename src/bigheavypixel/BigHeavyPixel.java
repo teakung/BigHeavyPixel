@@ -7,11 +7,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+
 public class BigHeavyPixel extends BasicGame{
 	
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
+	private static final int PIXEL_COUNT = 5;
+	private Pixel[] pixels;
 	
 	 public static void main(String[] args) {
 		    try {
@@ -31,7 +34,9 @@ public class BigHeavyPixel extends BasicGame{
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		human.render();
-		
+		for (Pixel pixel : pixels) {
+		      pixel.render();
+		}
 	}
 
 	@Override
@@ -39,14 +44,20 @@ public class BigHeavyPixel extends BasicGame{
 		container.setVSync(true);
 	    container.setTargetFrameRate(60);
 	    human = new Human(100);
-		
+	    pixels = new Pixel[PIXEL_COUNT];
+	    for (int i = 0; i < PIXEL_COUNT; i++) {
+	      pixels[i] = new Pixel();
+	    }
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		Input input = container.getInput();
 		updateHumanMovement(input, delta);
-		
+		for(int i =0;i<PIXEL_COUNT;i++)
+		{
+			pixels[i].update();
+		}
 	}
 
 	void updateHumanMovement(Input input, int delta) {
