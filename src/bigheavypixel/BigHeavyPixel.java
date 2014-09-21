@@ -13,7 +13,7 @@ public class BigHeavyPixel extends BasicGame{
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
-	private static final int PIXEL_COUNT = 5;
+	private static final int PIXEL_COUNT = 15;
 	private Pixel[] pixels;
 	
 	 public static void main(String[] args) {
@@ -46,7 +46,8 @@ public class BigHeavyPixel extends BasicGame{
 	    human = new Human(100);
 	    pixels = new Pixel[PIXEL_COUNT];
 	    for (int i = 0; i < PIXEL_COUNT; i++) {
-	      pixels[i] = new Pixel();
+	      pixels[i] = new PixelRain();
+	      pixels[i].randomColor();
 	    }
 	}
 

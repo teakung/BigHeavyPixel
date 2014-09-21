@@ -2,33 +2,41 @@ package bigheavypixel;
 
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 
 public class Pixel {
 	
+	private static final Color C = null;
 	private Image image;
-	private float x;
-	private float y;
-	private float g = 20;
+	protected float x;
+	protected float y;
+	protected float g = 15;
 	Random random = new Random();
+//	private Shape shape;
+	private Color color;
 	
 	public Pixel() throws SlickException{
 		image = new Image("res/Pixel.png");
 		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
 		y = 0;
 	}
-	public void update(){
+	public void update() throws SlickException{
 		y+=g;
-		if(y==BigHeavyPixel.GAME_HEIGHT){
+		if(y>=BigHeavyPixel.GAME_HEIGHT){
 			y=0;
-			randomX();
+			randomColor();
 		}
 	}
-	private void randomX() {
-		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);;
+	
+	public void randomColor()
+	{
+		color = new Color(random.nextInt(255), random.nextInt(255),random.nextInt(255));
 	}
 	public void render() {
-		image.draw(x,y);
+		image.draw(x,y,color);
 	}
+	
 }
