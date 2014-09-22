@@ -31,11 +31,18 @@ public class Human {
 
 	public void CheckBorder() {
 		if (x > BigHeavyPixel.GAME_WIDTH){
-			x =0;
+			x = 0;
 		}
 		if (x < 0){
-			x =BigHeavyPixel.GAME_WIDTH;
-		}
-		
+			x = BigHeavyPixel.GAME_WIDTH;
+		}	
+	}
+	
+	public float HumanX(){
+		return x;
+	}
+	
+	public float HumanY(){
+		return y;
 	}
 } 

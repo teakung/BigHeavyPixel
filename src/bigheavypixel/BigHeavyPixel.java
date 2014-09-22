@@ -10,22 +10,24 @@ import org.newdawn.slick.SlickException;
 
 public class BigHeavyPixel extends BasicGame{
 	
+	private boolean isStarted;
+	private boolean isGameOver;
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
-	private static final int PIXEL_COUNT = 15;
+	private static final int PIXEL_COUNT = 25;
 	private Pixel[] pixels;
 	
-	 public static void main(String[] args) {
-		    try {
-		      BigHeavyPixel game = new BigHeavyPixel("BigHeavy Pixel");
-		      AppGameContainer appgc = new AppGameContainer(game);
-		      appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
-		      appgc.start();
-		    } catch (SlickException e) {
-		      e.printStackTrace();
-		    }
-		  }
+	public static void main(String[] args) {
+		try {
+			BigHeavyPixel game = new BigHeavyPixel("BigHeavy Pixel");
+		    AppGameContainer appgc = new AppGameContainer(game);
+		    appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
+		    appgc.start();
+		} catch (SlickException e) {
+		    e.printStackTrace();
+		}
+	}
 	
 	public BigHeavyPixel(String title) {
 		super(title);
@@ -43,8 +45,18 @@ public class BigHeavyPixel extends BasicGame{
 	public void init(GameContainer container) throws SlickException {
 		container.setVSync(true);
 	    container.setTargetFrameRate(60);
-	    human = new Human(100);
-	    pixels = new Pixel[PIXEL_COUNT];
+	    initHuman();
+	    initPixelRain();
+	    isStarted = true;
+	    isGameOver = false;
+	}
+
+	private void initHuman() throws SlickException {
+		human = new Human(100);
+	}
+
+	private void initPixelRain() throws SlickException {
+		pixels = new Pixel[PIXEL_COUNT];
 	    for (int i = 0; i < PIXEL_COUNT; i++) {
 	      pixels[i] = new PixelRain();
 	      pixels[i].randomColor();
@@ -53,11 +65,18 @@ public class BigHeavyPixel extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		Input input = container.getInput();
-		updateHumanMovement(input, delta);
-		for(int i =0;i<PIXEL_COUNT;i++)
-		{
-			pixels[i].update();
+		if((!isGameOver)&&isStarted){
+			Input input = container.getInput();
+			updateHumanMovement(input, delta);
+			for(int i =0;i<PIXEL_COUNT;i++)
+			{
+				pixels[i].update();
+				if(CollisioDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
+//					System.out.println("Collision ");
+					isGameOver=true;
+				}
+			}
+//			System.out.println(human.HumanX());
 		}
 	}
 
@@ -68,6 +87,17 @@ public class BigHeavyPixel extends BasicGame{
 	    if (input.isKeyDown(Input.KEY_RIGHT)) {
 	    	human.moveRight();
 	    }
+	    if(input.isKeyDown(Input.KEY_ENTER)){
+	    	isGameOver= false;
+	    }
 	    human.CheckBorder();
 	}
+	
+	@Override
+	  public void keyPressed(int key, char c) {
+	    if (key == Input.KEY_SPACE){
+	    	isGameOver = false;
+	    }
+
+	 }
 }

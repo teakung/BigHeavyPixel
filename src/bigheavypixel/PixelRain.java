@@ -26,7 +26,7 @@ public class PixelRain extends Pixel{
 	}
 	
 	private void randomY() {
-		y = random.nextInt(800)*-1;
+		y = random.nextInt(BigHeavyPixel.GAME_HEIGHT*2)*-1;
 		
 	}
 	private void randomX() {
