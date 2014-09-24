@@ -15,8 +15,7 @@ public class PixelRain extends Pixel{
 	}
 	
 	@Override
-	public void update() throws SlickException{
-		y+=g;
+	public void checkBorder() throws SlickException{
 		if(y>=BigHeavyPixel.GAME_HEIGHT){
 			y=0;
 			randomX();

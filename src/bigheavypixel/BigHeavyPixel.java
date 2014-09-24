@@ -71,12 +71,12 @@ public class BigHeavyPixel extends BasicGame{
 			for(int i =0;i<PIXEL_COUNT;i++)
 			{
 				pixels[i].update();
-				if(CollisioDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
+				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
 //					System.out.println("Collision ");
+					
 					isGameOver=true;
 				}
 			}
-//			System.out.println(human.HumanX());
 		}
 	}
 

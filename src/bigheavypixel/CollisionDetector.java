@@ -1,7 +1,7 @@
 package bigheavypixel;
 
 
-public class CollisioDetector {
+public class CollisionDetector {
 	static boolean isCollide(float HumanX, float HumanY, float PixelX, float PixelY) {
 		if(HumanX<=PixelX+50&&HumanX>=PixelX-50)
 		{

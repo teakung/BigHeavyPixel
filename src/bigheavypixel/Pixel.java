@@ -25,6 +25,10 @@ public class Pixel {
 	
 	public void update() throws SlickException{
 		y+=g;
+		checkBorder();
+	}
+
+	public void checkBorder() throws SlickException{
 		if(y>=BigHeavyPixel.GAME_HEIGHT){
 			y=0;
 			randomColor();
