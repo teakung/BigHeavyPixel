@@ -16,6 +16,7 @@ public class BigHeavyPixel extends BasicGame{
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
 	private static final int PIXEL_COUNT = 25;
+	private int hp = 100;
 	private Pixel[] pixels;
 	
 	public static void main(String[] args) {
@@ -39,6 +40,7 @@ public class BigHeavyPixel extends BasicGame{
 		for (Pixel pixel : pixels) {
 		      pixel.render();
 		}
+		g.drawString("Scorino pointerino : " + hp, 100, 0);
 	}
 
 	@Override
@@ -73,8 +75,10 @@ public class BigHeavyPixel extends BasicGame{
 				pixels[i].update();
 				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
 //					System.out.println("Collision ");
-					
-					isGameOver=true;
+					hp-=10;
+					if(hp<=0){
+						isGameOver=true;
+					}
 				}
 			}
 		}
