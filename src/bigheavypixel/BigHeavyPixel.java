@@ -12,11 +12,12 @@ public class BigHeavyPixel extends BasicGame{
 	
 	private boolean isStarted;
 	private boolean isGameOver;
+	private boolean reStart;
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
 	private static final int PIXEL_COUNT = 25;
-	private int hp = 100;
+	private int hp;
 	private Pixel[] pixels;
 	
 	public static void main(String[] args) {
@@ -40,7 +41,7 @@ public class BigHeavyPixel extends BasicGame{
 		for (Pixel pixel : pixels) {
 		      pixel.render();
 		}
-		g.drawString("Scorino pointerino : " + hp, 100, 0);
+		g.drawString("HP : " + hp, 100, 0);
 	}
 
 	@Override
@@ -49,12 +50,14 @@ public class BigHeavyPixel extends BasicGame{
 	    container.setTargetFrameRate(60);
 	    initHuman();
 	    initPixelRain();
+	    hp=100;
 	    isStarted = true;
 	    isGameOver = false;
+	    reStart = false;
 	}
 
 	private void initHuman() throws SlickException {
-		human = new Human(100);
+		human = new Human(GAME_WIDTH/2);
 	}
 
 	private void initPixelRain() throws SlickException {
@@ -82,6 +85,9 @@ public class BigHeavyPixel extends BasicGame{
 				}
 			}
 		}
+		if(reStart && hp==0){
+			container.reinit();
+		}
 	}
 
 	void updateHumanMovement(Input input, int delta) {
@@ -100,8 +106,13 @@ public class BigHeavyPixel extends BasicGame{
 	@Override
 	  public void keyPressed(int key, char c) {
 	    if (key == Input.KEY_SPACE){
-	    	isGameOver = false;
+	    	restartgame();
 	    }
-
 	 }
+
+	private void restartgame() {
+		if(hp==0){
+		reStart = true;
+		}
+	}
 }
