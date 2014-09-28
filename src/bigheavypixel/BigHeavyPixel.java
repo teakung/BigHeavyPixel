@@ -18,6 +18,7 @@ public class BigHeavyPixel extends BasicGame{
 	public static final int GAME_HEIGHT = 720;
 	private static final int PIXEL_COUNT = 25;
 	private int hp;
+	private int score;
 	private Pixel[] pixels;
 	
 	public static void main(String[] args) {
@@ -42,6 +43,7 @@ public class BigHeavyPixel extends BasicGame{
 		      pixel.render();
 		}
 		g.drawString("HP : " + hp, 100, 0);
+		g.drawString("score : " + score, 200, 0);
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class BigHeavyPixel extends BasicGame{
 	    initHuman();
 	    initPixelRain();
 	    hp=100;
+	    score=0;
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
@@ -84,8 +87,9 @@ public class BigHeavyPixel extends BasicGame{
 					}
 				}
 			}
+			addScore();
 		}
-		if(reStart && hp==0){
+		if(reStart && hp<=0){
 			container.reinit();
 		}
 	}
@@ -111,8 +115,12 @@ public class BigHeavyPixel extends BasicGame{
 	 }
 
 	private void restartgame() {
-		if(hp==0){
-		reStart = true;
+		if( hp<=0 ){
+			reStart = true;
 		}
 	}
+	private void addScore(){
+		score+=1;
+	}
+	
 }
