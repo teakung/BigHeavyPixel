@@ -18,8 +18,8 @@ public class BigHeavyPixel extends BasicGame{
 	public static final int GAME_HEIGHT = 720;
 	private static final int PIXEL_COUNT = 25;
 	private int hp;
-	private int score;
 	private Pixel[] pixels;
+	private Score score;
 	
 	public static void main(String[] args) {
 		try {
@@ -43,7 +43,10 @@ public class BigHeavyPixel extends BasicGame{
 		      pixel.render();
 		}
 		g.drawString("HP : " + hp, 100, 0);
-		g.drawString("score : " + score, 200, 0);
+		score.render(g);
+		if(isGameOver){
+			g.drawString("Game  Over", GAME_WIDTH/2, GAME_HEIGHT/2);
+		}
 	}
 
 	@Override
@@ -52,8 +55,8 @@ public class BigHeavyPixel extends BasicGame{
 	    container.setTargetFrameRate(60);
 	    initHuman();
 	    initPixelRain();
+	    score = new Score();
 	    hp=100;
-	    score=0;
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
@@ -67,7 +70,6 @@ public class BigHeavyPixel extends BasicGame{
 		pixels = new Pixel[PIXEL_COUNT];
 	    for (int i = 0; i < PIXEL_COUNT; i++) {
 	      pixels[i] = new PixelRain();
-	      pixels[i].randomColor();
 	    }
 	}
 
@@ -80,14 +82,14 @@ public class BigHeavyPixel extends BasicGame{
 			{
 				pixels[i].update();
 				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
-//					System.out.println("Collision ");
 					hp-=10;
+					pixels[i].reDropPixel();
 					if(hp<=0){
 						isGameOver=true;
 					}
 				}
 			}
-			addScore();
+			score.addScore(1);
 		}
 		if(reStart && hp<=0){
 			container.reinit();
@@ -100,9 +102,6 @@ public class BigHeavyPixel extends BasicGame{
 	    }
 	    if (input.isKeyDown(Input.KEY_RIGHT)) {
 	    	human.moveRight();
-	    }
-	    if(input.isKeyDown(Input.KEY_ENTER)){
-	    	isGameOver= false;
 	    }
 	    human.CheckBorder();
 	}
@@ -119,8 +118,6 @@ public class BigHeavyPixel extends BasicGame{
 			reStart = true;
 		}
 	}
-	private void addScore(){
-		score+=1;
-	}
+
 	
 }

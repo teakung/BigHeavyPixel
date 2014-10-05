@@ -11,7 +11,7 @@ public class PixelRain extends Pixel{
 	public PixelRain() throws SlickException {
 		super();
 		randomX();
-		randomY();
+		reDropPixel();
 	}
 	
 	@Override
@@ -19,16 +19,8 @@ public class PixelRain extends Pixel{
 		if(y>=BigHeavyPixel.GAME_HEIGHT){
 			y=0;
 			randomX();
-			randomY();
+			reDropPixel();
 			randomColor();
 		}
-	}
-	
-	private void randomY() {
-		y = random.nextInt(BigHeavyPixel.GAME_HEIGHT*2)*-1;
-		
-	}
-	private void randomX() {
-		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
 	}
 }

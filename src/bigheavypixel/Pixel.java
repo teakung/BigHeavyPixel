@@ -21,6 +21,7 @@ public class Pixel {
 		image = new Image("res/Pixel.png");
 		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
 		y = 0;
+		randomColor();
 	}
 	
 	public void update() throws SlickException{
@@ -52,5 +53,11 @@ public class Pixel {
 		return y;
 	}
 	
+	protected void reDropPixel() {
+		y = random.nextInt(BigHeavyPixel.GAME_HEIGHT*2)*-1;
+	}
+	protected void randomX() {
+		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
+	}
 	
 }
