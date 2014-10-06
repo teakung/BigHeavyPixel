@@ -10,7 +10,6 @@ public class Score {
 		score = 0;
 	}
 	
-	
 	public void addScore(int scoreIn){
 		score+=scoreIn;
 	}

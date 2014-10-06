@@ -23,7 +23,7 @@ public class BigHeavyPixel extends BasicGame{
 	
 	public static void main(String[] args) {
 		try {
-			BigHeavyPixel game = new BigHeavyPixel("BigHeavy Pixel");
+			BigHeavyPixel game = new BigHeavyPixel("BigHeavyPixel");
 		    AppGameContainer appgc = new AppGameContainer(game);
 		    appgc.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
 		    appgc.start();
@@ -56,7 +56,7 @@ public class BigHeavyPixel extends BasicGame{
 	    initHuman();
 	    initPixelRain();
 	    score = new Score();
-	    hp=100;
+	    hp=70;
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
