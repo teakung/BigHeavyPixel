@@ -3,6 +3,7 @@ package bigheavypixel;
 import java.util.Random;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -19,17 +20,12 @@ public class Pixel {
 	
 	public Pixel() throws SlickException{
 		image = new Image("res/Pixel.png");
-		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
+		x = 0;
 		y = 0;
 		randomColor();
 	}
-	
-	public void update() throws SlickException{
-		y+=g;
-		checkBorder();
-	}
 
-	public void checkBorder() throws SlickException{
+	public void checkOutOfSceen() throws SlickException{
 		if(y>=BigHeavyPixel.GAME_HEIGHT){
 			y=0;
 			randomColor();
@@ -56,8 +52,14 @@ public class Pixel {
 	protected void reDropPixel() {
 		y = random.nextInt(BigHeavyPixel.GAME_HEIGHT*2)*-1;
 	}
-	protected void randomX() {
+	public void randomX() {
 		x = 25+random.nextInt(BigHeavyPixel.GAME_WIDTH);
+	}
+
+
+	public void update(GameContainer container, int delta)throws SlickException {
+		y+=g;
+		checkOutOfSceen();
 	}
 	
 }

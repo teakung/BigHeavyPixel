@@ -16,10 +16,12 @@ public class BigHeavyPixel extends BasicGame{
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
-	private static final int PIXEL_COUNT = 25;
+	private static final int PIXELRAIN_COUNT = 10;
+	private static final int PIXELWAVE_COUNT = (GAME_WIDTH/Pixel.WIDTH)/2;
 	private int hp;
-	private Pixel[] pixels;
+	private Pixel[] pixelrains;
 	private Score score;
+	private Pixel[] pixelwaves;
 	
 	public static void main(String[] args) {
 		try {
@@ -39,9 +41,12 @@ public class BigHeavyPixel extends BasicGame{
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		human.render();
-		for (Pixel pixel : pixels) {
+		for (Pixel pixel : pixelrains) {
 		      pixel.render();
 		}
+		for(Pixel pixel : pixelwaves){
+			pixel.render();
+		}	
 		g.drawString("HP : " + hp, 100, 0);
 		score.render(g);
 		if(isGameOver){
@@ -56,10 +61,14 @@ public class BigHeavyPixel extends BasicGame{
 	    initHuman();
 	    initPixelRain();
 	    score = new Score();
-	    hp=70;
+	    hp=100;
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
+	    pixelwaves = new Pixel[PIXELWAVE_COUNT];
+	    for (int i = 0; i < PIXELWAVE_COUNT; i++) {
+		      pixelwaves[i] = new PixelWave((i*(Pixel.WIDTH)*2));
+		}
 	}
 
 	private void initHuman() throws SlickException {
@@ -67,45 +76,74 @@ public class BigHeavyPixel extends BasicGame{
 	}
 
 	private void initPixelRain() throws SlickException {
-		pixels = new Pixel[PIXEL_COUNT];
-	    for (int i = 0; i < PIXEL_COUNT; i++) {
-	      pixels[i] = new PixelRain();
+		pixelrains = new Pixel[PIXELRAIN_COUNT];
+	    for (int i = 0; i < PIXELRAIN_COUNT; i++) {
+	      pixelrains[i] = new PixelRain();
 	    }
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
+		updateHuman(container);
+		updatePixelRain(container, delta);
 		if((!isGameOver)&&isStarted){
-			Input input = container.getInput();
-			updateHumanMovement(input, delta);
-			for(int i =0;i<PIXEL_COUNT;i++)
-			{
-				pixels[i].update();
-				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixels[i].PixelX(), pixels[i].PixelY())){
-					hp-=10;
-					pixels[i].reDropPixel();
-					if(hp<=0){
-						isGameOver=true;
-					}
+			for (int i = 0; i < PIXELWAVE_COUNT; i++) {
+			     pixelwaves[i].update(container, delta);
+			     if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixelwaves[i].PixelX(), pixelwaves[i].PixelY())){
+						hp-=1;
 				}
 			}
-			score.addScore(1);
 		}
+		updateScore();
+		checkHP();
+		checkRestart(container);
+		
+	}
+
+	private void checkRestart(GameContainer container) throws SlickException {
 		if(reStart && hp<=0){
 			container.reinit();
 		}
 	}
 
-	void updateHumanMovement(Input input, int delta) {
-		if (input.isKeyDown(Input.KEY_LEFT)) { 
-	    	human.moveLeft();
-	    }
-	    if (input.isKeyDown(Input.KEY_RIGHT)) {
-	    	human.moveRight();
-	    }
-	    human.CheckBorder();
+	private void updatePixelRain(GameContainer container, int delta) throws SlickException {
+		if((!isGameOver)&&isStarted){
+			for(int i =0;i<PIXELRAIN_COUNT;i++)
+			{
+				pixelrains[i].update(container, delta);
+				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixelrains[i].PixelX(), pixelrains[i].PixelY())){
+					hp-=10;
+					pixelrains[i].reDropPixel();					
+				}
+			}
+		}
 	}
-	
+
+	private void updateScore() {
+		if((!isGameOver)&&isStarted){
+			score.addScore(1);
+		}
+	}
+
+	private void updateHuman(GameContainer container) {
+		if((!isGameOver)&&isStarted){
+			Input input = container.getInput();
+			if (input.isKeyDown(Input.KEY_LEFT)) { 
+		    	human.moveLeft();
+		    }
+		    if (input.isKeyDown(Input.KEY_RIGHT)) {
+		    	human.moveRight();
+		    }
+		    human.CheckBorder();
+		}
+	}
+
+	private void checkHP() {
+		if(hp<=0){
+			isGameOver=true;
+		}
+	}
+
 	@Override
 	  public void keyPressed(int key, char c) {
 	    if (key == Input.KEY_SPACE){
