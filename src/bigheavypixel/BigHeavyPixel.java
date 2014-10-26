@@ -24,9 +24,9 @@ public class BigHeavyPixel extends BasicGame{
 	private Pixel[] pixelrains;
 	private Score score;
 	private Pixel[] pixelwaves;
-	private static int default_delay = 5000;
+	private static int default_delay = 6000;
 	private static int time = 0;
-	private static int default_Barrier_delay = 5000;
+	private static int default_Barrier_delay = 4500;
 	private static int timeBarrier = 5000;
 	
 	public static void main(String[] args) {
@@ -58,8 +58,11 @@ public class BigHeavyPixel extends BasicGame{
 		if(isGameOver){
 			g.drawString("Game  Over", GAME_WIDTH/2, GAME_HEIGHT/2);
 		}
-		if(isShieldable){
+		if(isShieldable&&(!isGameOver)){
 			g.drawString("Barrier : Available", GAME_WIDTH/2, 300);
+		}
+		if(!isdestructable){
+			g.drawString("Shield : On", GAME_WIDTH/2-200, GAME_HEIGHT/2);
 		}
 	}
 
@@ -105,9 +108,11 @@ public class BigHeavyPixel extends BasicGame{
 		updateScore();
 		checkHP();
 		checkRestart(container);
+		updateShield(delta);
+	}
+
+	private void updateShield(int delta) {
 		time -= delta;
-		System.out.println(time);
-		System.out.println(isShieldable);
 	    if (time <= 0 &&(!isShieldable)) {
 	        isShieldable = true;
 	        time = default_delay;  // Reset the timer
@@ -187,10 +192,16 @@ public class BigHeavyPixel extends BasicGame{
 	    	restartgame();
 	    }
 	    if (key == Input.KEY_ENTER){
-	    	isShieldable = false;
-	    	isdestructable = false;
+	    	activateShield();
 	    }
 	 }
+
+	private void activateShield() {
+		if(!isGameOver){
+			isShieldable = false;
+			isdestructable = false;
+		}
+	}
 
 	private void restartgame() {
 		if( hp<=0 ){
@@ -198,5 +209,4 @@ public class BigHeavyPixel extends BasicGame{
 		}
 	}
 
-	
 }
