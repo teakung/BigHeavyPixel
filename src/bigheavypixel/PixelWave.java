@@ -25,11 +25,11 @@ public class PixelWave extends Pixel{
 //	        time = default_bullet_delay;  // Reset the timer
 //	    }
 //	    if(trigger){
-	    	y+=g;
-	    	if(y>=BigHeavyPixel.GAME_HEIGHT){
-//	    		trigger = false;
-	    		y = -1*(delay);
-	    		randomColor();
-	    	}
+	    y+=g;
+	    if(y>=BigHeavyPixel.GAME_HEIGHT){
+//	    	trigger = false;
+	    	y = -1*(delay);
+	    	randomColor();
 	    }
+	}
 }

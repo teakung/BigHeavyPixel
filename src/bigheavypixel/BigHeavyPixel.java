@@ -17,7 +17,7 @@ public class BigHeavyPixel extends BasicGame{
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
 	private static final int PIXELRAIN_COUNT = 10;
-	private static final int PIXELWAVE_COUNT = (GAME_WIDTH/Pixel.WIDTH)/2;
+	private static final int PIXELWAVE_COUNT = ((GAME_WIDTH/Pixel.WIDTH))+1;
 	private int hp;
 	private Pixel[] pixelrains;
 	private Score score;
@@ -60,14 +60,18 @@ public class BigHeavyPixel extends BasicGame{
 	    container.setTargetFrameRate(60);
 	    initHuman();
 	    initPixelRain();
+	    initPixelWave();
 	    score = new Score();
 	    hp=100;
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
-	    pixelwaves = new Pixel[PIXELWAVE_COUNT];
-	    for (int i = 0; i < PIXELWAVE_COUNT; i++) {
-		      pixelwaves[i] = new PixelWave((i*(Pixel.WIDTH)*2));
+	}
+
+	private void initPixelWave() throws SlickException {
+		pixelwaves = new Pixel[PIXELWAVE_COUNT];
+		for (int i = 0; i < PIXELWAVE_COUNT; i++) {
+		      pixelwaves[i] = new PixelWave((i*(Pixel.WIDTH)));
 		}
 	}
 
@@ -86,6 +90,15 @@ public class BigHeavyPixel extends BasicGame{
 	public void update(GameContainer container, int delta) throws SlickException {
 		updateHuman(container);
 		updatePixelRain(container, delta);
+		updatePixelWave(container, delta);
+		updateScore();
+		checkHP();
+		checkRestart(container);
+		
+	}
+
+	private void updatePixelWave(GameContainer container, int delta)
+			throws SlickException {
 		if((!isGameOver)&&isStarted){
 			for (int i = 0; i < PIXELWAVE_COUNT; i++) {
 			     pixelwaves[i].update(container, delta);
@@ -94,10 +107,6 @@ public class BigHeavyPixel extends BasicGame{
 				}
 			}
 		}
-		updateScore();
-		checkHP();
-		checkRestart(container);
-		
 	}
 
 	private void checkRestart(GameContainer container) throws SlickException {
