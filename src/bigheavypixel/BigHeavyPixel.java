@@ -13,15 +13,21 @@ public class BigHeavyPixel extends BasicGame{
 	private boolean isStarted;
 	private boolean isGameOver;
 	private boolean reStart;
+	private boolean isShieldable;
+	private boolean isdestructable;
 	private Human human;
 	public static final int GAME_WIDTH = 1280;
 	public static final int GAME_HEIGHT = 720;
-	private static final int PIXELRAIN_COUNT = 10;
+	private static final int PIXELRAIN_COUNT = 20;
 	private static final int PIXELWAVE_COUNT = ((GAME_WIDTH/Pixel.WIDTH))+1;
 	private int hp;
 	private Pixel[] pixelrains;
 	private Score score;
 	private Pixel[] pixelwaves;
+	private static int default_delay = 5000;
+	private static int time = 0;
+	private static int default_Barrier_delay = 5000;
+	private static int timeBarrier = 5000;
 	
 	public static void main(String[] args) {
 		try {
@@ -52,6 +58,9 @@ public class BigHeavyPixel extends BasicGame{
 		if(isGameOver){
 			g.drawString("Game  Over", GAME_WIDTH/2, GAME_HEIGHT/2);
 		}
+		if(isShieldable){
+			g.drawString("Barrier : Available", GAME_WIDTH/2, 300);
+		}
 	}
 
 	@Override
@@ -66,6 +75,8 @@ public class BigHeavyPixel extends BasicGame{
 	    isStarted = true;
 	    isGameOver = false;
 	    reStart = false;
+	    isShieldable = false;
+	    isdestructable = true;
 	}
 
 	private void initPixelWave() throws SlickException {
@@ -94,7 +105,20 @@ public class BigHeavyPixel extends BasicGame{
 		updateScore();
 		checkHP();
 		checkRestart(container);
-		
+		time -= delta;
+		System.out.println(time);
+		System.out.println(isShieldable);
+	    if (time <= 0 &&(!isShieldable)) {
+	        isShieldable = true;
+	        time = default_delay;  // Reset the timer
+	    }
+	    if(!isdestructable){
+	    	timeBarrier -= delta;
+	    }
+	    if(timeBarrier<=0){
+	    	isdestructable = true;
+	    	timeBarrier = default_Barrier_delay;
+	    }
 	}
 
 	private void updatePixelWave(GameContainer container, int delta)
@@ -103,7 +127,9 @@ public class BigHeavyPixel extends BasicGame{
 			for (int i = 0; i < PIXELWAVE_COUNT; i++) {
 			     pixelwaves[i].update(container, delta);
 			     if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixelwaves[i].PixelX(), pixelwaves[i].PixelY())){
-						hp-=1;
+					if (isdestructable){	
+			    	 hp-=1;
+					}
 				}
 			}
 		}
@@ -121,8 +147,10 @@ public class BigHeavyPixel extends BasicGame{
 			{
 				pixelrains[i].update(container, delta);
 				if(CollisionDetector.isCollide(human.HumanX(), human.HumanY(), pixelrains[i].PixelX(), pixelrains[i].PixelY())){
+					if(isdestructable){
 					hp-=10;
-					pixelrains[i].reDropPixel();					
+					pixelrains[i].reDropPixel();
+					}
 				}
 			}
 		}
@@ -157,6 +185,10 @@ public class BigHeavyPixel extends BasicGame{
 	  public void keyPressed(int key, char c) {
 	    if (key == Input.KEY_SPACE){
 	    	restartgame();
+	    }
+	    if (key == Input.KEY_ENTER){
+	    	isShieldable = false;
+	    	isdestructable = false;
 	    }
 	 }
 
