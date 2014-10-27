@@ -8,7 +8,7 @@ public class PixelWave extends Pixel{
 //	private static int default_bullet_delay = 1000;
 //	private static int time = 0;
 //	public boolean trigger;
-	private int delay = 1000;
+	private int delay = 3000;
 	protected float g = 10;
 	public PixelWave(int desireX) throws SlickException {
 		// TODO Auto-generated constructor stub

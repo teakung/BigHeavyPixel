@@ -24,10 +24,10 @@ public class BigHeavyPixel extends BasicGame{
 	private Pixel[] pixelrains;
 	private Score score;
 	private Pixel[] pixelwaves;
-	private static int default_delay = 6000;
+	private static int default_delay = 3000;
 	private static int time = 0;
-	private static int default_Barrier_delay = 4500;
-	private static int timeBarrier = 5000;
+	private static int default_Barrier_delay = 3000;
+	private static int timeBarrier = 3000;
 	
 	public static void main(String[] args) {
 		try {
@@ -112,7 +112,9 @@ public class BigHeavyPixel extends BasicGame{
 	}
 
 	private void updateShield(int delta) {
-		time -= delta;
+		if(isdestructable==true){
+			time -= delta;
+		}
 	    if (time <= 0 &&(!isShieldable)) {
 	        isShieldable = true;
 	        time = default_delay;  // Reset the timer
@@ -197,9 +199,10 @@ public class BigHeavyPixel extends BasicGame{
 	 }
 
 	private void activateShield() {
-		if(!isGameOver){
+		if(isShieldable&&(isdestructable)){
 			isShieldable = false;
 			isdestructable = false;
+			System.out.println(isShieldable);
 		}
 	}
 
@@ -208,5 +211,5 @@ public class BigHeavyPixel extends BasicGame{
 			reStart = true;
 		}
 	}
-
+  
 }
